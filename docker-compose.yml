@@ -163,6 +163,7 @@ services:
       - BACKEND_STORE_URI=postgresql://mlflow_user:${PG_MLFLOW_PWD}@postgres:5432/mlflow_db
     ports:
       - 5000:5000
+    restart: always
     depends_on:
       postgres:
         condition: service_healthy
@@ -205,6 +206,27 @@ services:
       exit 0; '
     depends_on:
       - s3
+
+  #--------------------------------------------------------------------------------------------------------------------------------------#
+  # Prediction API EndPoint
+  #--------------------------------------------------------------------------------------------------------------------------------------#
+  api-endpoint:
+    build:
+      context: ./services/api-prediction
+      dockerfile: api.Dockerfile
+    image: api-prediction:v1
+    container_name: api_endpoint
+    environment:
+      - MLFLOW_TRACKING_URI=${MLFLOW_TRACKING_URI}
+      - MODEL_NAME=${MODEL_NAME}
+      - MODEL_ALIAS=${MODEL_ALIAS}
+      - DATABASE_URL=postgresql://prediction_user:${PG_PREDICTION_PWD}@postgres:5432/prediction_db
+    ports:
+      - 8000:8000
+    restart: always
+    depends_on:
+      - mlflow-server
+      - postgres
 
 volumes:
   postgres_data:

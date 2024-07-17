@@ -27,4 +27,13 @@ PGPASSWORD=$POSTGRES_PASSWORD psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER
         LC_CTYPE = 'en_US.utf8'
         TABLESPACE = pg_default;
 
+    CREATE USER prediction_user WITH PASSWORD '$PG_PREDICTION_PWD' CREATEDB;
+    CREATE DATABASE prediction_db
+        WITH 
+        OWNER = prediction_user
+        ENCODING = 'UTF8'
+        LC_COLLATE = 'en_US.utf8'
+        LC_CTYPE = 'en_US.utf8'
+        TABLESPACE = pg_default;
+
 EOSQL
