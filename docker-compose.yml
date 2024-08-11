@@ -17,9 +17,10 @@ x-airflow-common:
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
+    PG_PREDICTION_PWD: ${PG_PREDICTION_PWD}
   volumes:
     - ${PROJECT_PATH:-.}/airflow/dags:/opt/airflow/dags
-    #- ${PROJECT_PATH:-.}/airflow/logs:/opt/airflow/logs
+    - ${PROJECT_PATH:-.}/airflow/logs:/opt/airflow/logs
     #- ${PROJECT_DIR:-.}/airflow/config:/opt/airflow/config
     #- ${PROJECT_DIR:-.}/airflow/plugins:/opt/airflow/plugins
     - ${PROJECT_PATH:-.}/services/airflow/set-airflow-vars-conns.sh:/opt/airflow/set-airflow-vars-conns.sh
@@ -39,7 +40,7 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "vlady" ]
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres" ]
       timeout: 5s
       interval: 5s
       retries: 5
@@ -210,23 +211,23 @@ services:
   #--------------------------------------------------------------------------------------------------------------------------------------#
   # Prediction API EndPoint
   #--------------------------------------------------------------------------------------------------------------------------------------#
-  api-endpoint:
-    build:
-      context: ./services/api-prediction
-      dockerfile: api.Dockerfile
-    image: api-prediction:v1
-    container_name: api_endpoint
-    environment:
-      - MLFLOW_TRACKING_URI=${MLFLOW_TRACKING_URI}
-      - MODEL_NAME=${MODEL_NAME}
-      - MODEL_ALIAS=${MODEL_ALIAS}
-      - DATABASE_URL=postgresql://prediction_user:${PG_PREDICTION_PWD}@postgres:5432/prediction_db
-    ports:
-      - 8000:8000
-    restart: always
-    depends_on:
-      - mlflow-server
-      - postgres
+  #api-endpoint:
+  #  build:
+  #    context: ./services/api-prediction
+  #    dockerfile: api.Dockerfile
+  #  image: api-prediction:v1
+  #  container_name: api_endpoint
+  #  environment:
+  #    - MLFLOW_TRACKING_URI=${MLFLOW_TRACKING_URI}
+  #    - MODEL_NAME=${MODEL_NAME}
+  #    - MODEL_ALIAS=${MODEL_ALIAS}
+  #    - DATABASE_URL=postgresql://prediction_user:${PG_PREDICTION_PWD}@postgres:5432/prediction_db
+  #  ports:
+  #    - 8000:8000
+  #  restart: always
+  #  depends_on:
+  #    - mlflow-server
+  #    - postgres
 
 volumes:
   postgres_data:

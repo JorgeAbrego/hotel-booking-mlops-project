@@ -9,7 +9,7 @@ COPY requirements.txt .
 
 # Install dependencies from the requirements file and then remove the file
 RUN pip install --no-cache-dir -r requirements.txt \
-    && rm mlflow_requeriments.txt
+    && rm requirements.txt
 
 # Copy the API code
 COPY . .

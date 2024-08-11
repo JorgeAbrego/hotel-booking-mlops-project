@@ -36,4 +36,44 @@ PGPASSWORD=$POSTGRES_PASSWORD psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER
         LC_CTYPE = 'en_US.utf8'
         TABLESPACE = pg_default;
 
+    CREATE DATABASE reservations_db
+        WITH 
+        OWNER = prediction_user
+        ENCODING = 'UTF8'
+        LC_COLLATE = 'en_US.utf8'
+        LC_CTYPE = 'en_US.utf8'
+        TABLESPACE = pg_default;
+EOSQL
+
+# Create table in prediction_db
+PGPASSWORD=$PG_PREDICTION_PWD psql -v ON_ERROR_STOP=1 --username "prediction_user" --dbname "prediction_db" <<-EOSQL
+    CREATE TABLE prediction_logs (
+        id SERIAL PRIMARY KEY,
+        hotel VARCHAR,
+        meal VARCHAR,
+        market_segment VARCHAR,
+        distribution_channel VARCHAR,
+        reserved_room_type VARCHAR,
+        deposit_type VARCHAR,
+        customer_type VARCHAR,
+        lead_time INTEGER,
+        days_in_waiting_list INTEGER,
+        adr FLOAT,
+        total_stay INTEGER,
+        total_people INTEGER,
+        is_repeated_guest INTEGER,
+        previous_cancellations INTEGER,
+        previous_bookings_not_canceled INTEGER,
+        booking_changes INTEGER,
+        agent INTEGER,
+        company INTEGER,
+        required_car_parking_spaces INTEGER,
+        total_of_special_requests INTEGER,
+        is_canceled INTEGER,
+        prediction INTEGER,
+        probability FLOAT,
+        model_name VARCHAR,
+        model_version VARCHAR,
+        prediction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
 EOSQL
