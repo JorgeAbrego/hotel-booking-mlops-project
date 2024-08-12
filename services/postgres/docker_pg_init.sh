@@ -74,6 +74,27 @@ PGPASSWORD=$PG_PREDICTION_PWD psql -v ON_ERROR_STOP=1 --username "prediction_use
         probability FLOAT,
         model_name VARCHAR,
         model_version VARCHAR,
+        reservation_date TIMESTAMP,
         prediction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE data_report (
+        drift_share FLOAT,
+        number_of_columns INTEGER,
+        number_of_drifted_columns INTEGER,
+        share_of_drifted_columns FLOAT,
+        dataset_drift BOOLEAN,
+        date_dataset DATE,
+        date_report DATE
+    );
+
+    CREATE TABLE data_columns_report (
+        column_name VARCHAR,
+        column_type VARCHAR,
+        drift_score FLOAT,
+        drift_detected BOOLEAN,
+        date_dataset DATE,
+        date_report DATE
+    );
+
 EOSQL
