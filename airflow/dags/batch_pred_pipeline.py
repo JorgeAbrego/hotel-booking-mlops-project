@@ -22,7 +22,7 @@ dag = DAG(
     'reservations_prediction_dag',
     default_args=default_args,
     description='DAG for predicting reservation cancellations',
-    schedule_interval='0 3 * * *',  # Runs at 3 AM every day
+    schedule_interval='0 1 * * *',  # Runs at 3 AM every day
     start_date=days_ago(1),
 )
 
