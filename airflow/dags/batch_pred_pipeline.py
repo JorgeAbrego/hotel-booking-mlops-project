@@ -53,6 +53,8 @@ def load_data(**kwargs):
 
     df = pd.read_sql_query(query, engine)
 
+    print(f"Data found: {df.shape}")
+    
     if df.empty:
         return 'no_data'
 
@@ -113,6 +115,7 @@ def predict_and_save(**kwargs):
     dataset['probability'] = pred_prob
     dataset['model_name'] = model_name
     dataset['model_version'] = model_version_details.version
+    dataset['reservation_date'] = df['reservation_date']
     dataset['prediction_date'] = pd.to_datetime('now')
 
     # Save the results in the prediction_logs table
