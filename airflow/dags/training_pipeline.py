@@ -185,7 +185,7 @@ with DAG(
     'hotel_cancellation_training_pipeline',
     default_args=default_args,
     description='A DAG for hotel cancellation prediction training pipeline with MLflow tracking and lineage',
-    schedule_interval=timedelta(days=1),
+    schedule_interval=None,
     start_date=datetime(2023, 1, 1),
     catchup=False,
 ) as dag:
