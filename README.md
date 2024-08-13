@@ -59,11 +59,24 @@ The dataset used in this project is publicly available on Kaggle: [Hotel Booking
 ## Technical Structure
 This project is built using the following technologies:
 - **MLflow**: Employed for tracking experiments, versioning models, and serving the final model.
+
+   MLflow Experiment Tracking | MLflow Model Versioning
+   --- | ---
+   ![alt text](assets/mlflow_experiments.png)| ![alt text](assets/mlflow_models.png)
+
 - **Apache Airflow**: Used for orchestrating and automating data pipelines.
+
+   ![alt text](assets/airflow_dags.png)
+
 - **PostgreSQL**: Serves as the metadata database for Airflow, MLflow, and tracking predictions and logs.
+
+   ![alt text](assets/pg_databases.png)
+
 - **PgAdmin**: Provides a web-based interface for PostgreSQL database administration.
 - **Evidently**: A tool for monitoring data and model performance to ensure consistent and reliable predictions over time.
-- **Terraform**: Used for automating the deployment of cloud resources.
+- **Grafana**: Used for creating dashboards to visualize metrics and monitoring data from Evidently and other sources.
+
+   ![alt text](assets/grafana_dashboard.png)
 
 ## Prerequisites
 Before deploying the project, the following prerequisites are necessary:
@@ -100,6 +113,7 @@ Before deploying the project, the following prerequisites are necessary:
    - Airflow can be accessed at `http://localhost:8080`.
    - PgAdmin can be accessed at `http://localhost:8888`.
    - Minio can be accessed at `http://localhost:9001`.
+   - Grafana will be accessible at `http://localhost:3000`.
 
 ### Cloud Deployment with Terraform
 1. **Install Terraform**:
