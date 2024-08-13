@@ -211,6 +211,23 @@ services:
       - s3
 
   #--------------------------------------------------------------------------------------------------------------------------------------#
+  # Grafana Dashboard Server
+  #--------------------------------------------------------------------------------------------------------------------------------------#
+  grafana:
+    image: grafana/grafana-enterprise:11.0.1
+    container_name: grafana
+    user: "472"
+    env_file:
+      - .env
+    volumes:
+      - ./config/grafana_datasources.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+      - ./config/grafana_dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
+      - ./dashboards:/opt/grafana/dashboards
+    ports:
+      - "3000:3000"
+    restart: always 
+
+  #--------------------------------------------------------------------------------------------------------------------------------------#
   # Prediction API EndPoint
   #--------------------------------------------------------------------------------------------------------------------------------------#
   #api-endpoint:
